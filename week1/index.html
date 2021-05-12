@@ -1,0 +1,81 @@
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE WEEK1</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container" id="demo">
+        <button type="button" id="openModal" class="btn btn-sm btn-success">新增產品</button>
+        <button type="button" id="clearAll" class="btn btn-sm btn-danger">清除全部</button>
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>產品名稱</th>
+                    <th width="120">
+                        原價
+                    </th>
+                    <th width="120">
+                        售價
+                    </th>
+                    <th width="150">
+                        是否啟用
+                    </th>
+                    <th width="120">
+                        編輯
+                    </th>
+                    <th width="120">
+                        刪除
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="productTable">
+            </tbody>
+        </table>
+        <p>目前有 <span id="productCount">0</span> 項產品</p>
+    </div>
+    
+  
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-2">
+                   <label for="name">產品標題</label>
+                   <input id="name" type="text" class="form-control" placeholder="請輸入產品標題">
+                </div>
+                <div class="row mb-2">
+                   <div class="form-group col-md-6">
+                      <label for="originPrice">原價</label>
+                      <input id="originPrice" type="number" min="0" class="form-control" placeholder="請輸入原價">
+                   </div>
+                   <div class="form-group col-md-6">
+                      <label for="price">售價</label>
+                      <input id="price" min="0" type="number" class="form-control" placeholder="請輸入售價">
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" id="addProduct">送出</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="./javascript/app.js"></script>
+</body>
+
+</html>
