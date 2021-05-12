@@ -23,12 +23,6 @@ productList.splice = function() {
   render();
 }
 
-productList.update = function(index, data) {
-  productList[index] = data;
-  render();
-}
-
-
 function openProductModal(product) {
     if (product) {
         productModalLabel.innerHTML = '修改商品';
