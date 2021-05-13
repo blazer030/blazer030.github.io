@@ -1,29 +1,31 @@
-const addBtn = document.getElementById('addProduct');
+
+const openModalBtn = document.getElementById('openModal');
 const clearAllBtn = document.getElementById('clearAll');
 
 const productTable = document.getElementById('productTable');
 const productCount = document.getElementById('productCount');
 
-const openModalBtn = document.getElementById('openModal');
 const productModalLabel = document.getElementById('productModalLabel');
 const nameInput = document.getElementById('name');
 const originPriceInput = document.getElementById('originPrice');
 const priceInput = document.getElementById('price');
+const submitBtn = document.getElementById('submit');
 
 let updateIndex = -1;
 let productList = [];
 //定義修改時執行渲染函式
-productList.push = function() { 
-  Array.prototype.push.apply(this, arguments);  
+productList.push = (...arguments) => { 
+  Array.prototype.push.apply(productList, arguments);  
   render();
 };
 
-productList.splice = function() {
-  Array.prototype.splice.apply(this, arguments);  
+productList.splice = (...arguments) => {
+  Array.prototype.splice.apply(productList, arguments);  
   render();
 }
 
-function openProductModal(product) {
+//開啟modal
+const openProductModal = (product) => {
     if (product) {
         productModalLabel.innerHTML = '修改商品';
         nameInput.value = product.name;
@@ -38,7 +40,8 @@ function openProductModal(product) {
     $("#productModal").modal('show');
 }
 
-function addProduct() {
+//新增&修改商品
+const modifyProduct = () => {
     if (nameInput.value !== '') {
         if (updateIndex == -1) {
             productList.push({
@@ -61,7 +64,8 @@ function addProduct() {
     }
 }
 
-function editProduct(e) {
+//修改商品事件
+const editProductEvent = (e) => {
     const action = e.target.dataset.action;
     const index = e.target.dataset.id;
     switch (action) {
@@ -81,7 +85,7 @@ function editProduct(e) {
 }
 
 //渲染函式
-function render() {
+render = () => {
   let productListHtml = '';
   productList.forEach((product, index) => {
     productListHtml += `
@@ -113,14 +117,14 @@ function render() {
 }
 
 //設定監聽
-openModalBtn.addEventListener('click', function() {
+openModalBtn.addEventListener('click', () => {
     updateIndex = -1;
     openProductModal();
 });
-clearAllBtn.addEventListener('click', function() {
+clearAllBtn.addEventListener('click', () => {
     productList.splice(0, productList.length);
 });
-addBtn.addEventListener('click', addProduct);
-productTable.addEventListener('click', editProduct);
+submitBtn.addEventListener('click', modifyProduct);
+productTable.addEventListener('click', editProductEvent);
 
 render();
