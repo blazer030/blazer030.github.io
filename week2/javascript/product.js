@@ -52,30 +52,29 @@ const app = {
 		this.data.productList.forEach((product, index) => {
 		  productListHtml += `
 		  <tr>
-			<td>${product.title}</td>
-			<td width="150">
-			  ${product.category}
+			<td>
+				${product.title}
 			</td>
 			<td width="150">
-			  ${product.unit}
+				${product.category}
 			</td>
-			<td width="150">
-			  ${product.origin_price}
+			<td width="150" class="text-center">
+			  	${product.unit}
 			</td>
-			<td width="150">
-			  ${product.price}
+			<td width="150" class="text-right">
+			  	${product.origin_price}
 			</td>
-			<td width="150">
-			  <div class="form-check form-switch">
-				<input class="form-check-input" type="checkbox" id="chk${ index }" ${ product.is_enabled ? 'checked': '' } data-action="status" data-id="${ index }">
-				<label class="form-check-label" for="chk${ index }">${ product.is_enabled ? '啟用' : '未啟用' }</label>
-			  </div>
+			<td width="150" class="text-right">
+			  	${product.price}
 			</td>
-			<td width="150">
-			  <button type="button" class="btn btn-sm btn-outline-success move" data-action="edit" data-id="${index}"> 編輯 </button>
+			<td width="150" class="text-center">
+				<a href="javascript:void(0);" class="badge ${ product.is_enabled ? 'badge-success': 'badge-secondary' }" style="font-size:1em;" data-action="status" data-id="${ index }">${ product.is_enabled ? 'ON' : 'OFF' }</a>
 			</td>
-			<td width="150">
-			  <button type="button" class="btn btn-sm btn-outline-danger move" data-action="remove" data-id="${index}"> 刪除 </button>
+			<td width="120" class="text-center">
+				<button type="button" class="btn btn-sm btn-outline-success move" data-action="edit" data-id="${index}"> 編輯 </button>
+			</td>
+			<td width="120" class="text-center">
+				<button type="button" class="btn btn-sm btn-outline-danger move" data-action="remove" data-id="${index}"> 刪除 </button>
 			</td>
 		  </tr>
 		  `;
