@@ -23,6 +23,7 @@ const app = {
 		axios.post(`${this.data.apiUrl}/logout`)
 		.then((response) => {
 			if (response.data.success) {
+				document.cookie = 'hexToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 				window.location = 'index.html';
 			}
 		}).catch((error) => {
