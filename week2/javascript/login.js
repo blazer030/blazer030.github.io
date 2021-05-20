@@ -20,7 +20,7 @@ function login() {
         }
     }).catch((error) => {
         console.log(error);
-        alertify.error('網路連線錯誤！');
+        //alertify.error('網路連線錯誤！');
     });
 }
 loginBtn.addEventListener('click', login);

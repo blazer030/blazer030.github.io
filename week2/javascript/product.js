@@ -56,25 +56,25 @@ const app = {
 			<td>
 				${product.title}
 			</td>
-			<td width="150">
+			<td>
 				${product.category}
 			</td>
-			<td width="150" class="text-center">
+			<td class="text-center">
 			  	${product.unit}
 			</td>
-			<td width="150" class="text-right">
+			<td class="text-right">
 			  	${product.origin_price}
 			</td>
-			<td width="150" class="text-right">
+			<td class="text-right">
 			  	${product.price}
 			</td>
-			<td width="150" class="text-center">
+			<td class="text-center">
 				<a href="javascript:void(0);" class="badge ${ product.is_enabled ? 'badge-success': 'badge-secondary' }" style="font-size:1em;" data-action="status" data-id="${ index }">${ product.is_enabled ? 'ON' : 'OFF' }</a>
 			</td>
-			<td width="120" class="text-center">
+			<td class="text-center">
 				<button type="button" class="btn btn-sm btn-outline-success move" data-action="edit" data-id="${index}"> 編輯 </button>
 			</td>
-			<td width="120" class="text-center">
+			<td class="text-center">
 				<button type="button" class="btn btn-sm btn-outline-danger move" data-action="remove" data-id="${index}"> 刪除 </button>
 			</td>
 		  </tr>
@@ -191,32 +191,21 @@ const app = {
 		}
 		
 		if (errorCount == 0) {
+			const product = {
+				data: {
+					title: nameInput.value.trim(),
+					category: categoryInput.value.trim(),
+					unit: unitInput.value.trim(),
+					origin_price: parseInt(originPriceInput.value) || 0,
+					price: parseInt(priceInput.value) || 0
+				}
+			};
 			if (this.data.updateId == -1) {
-				const product = {
-					data: {
-						title: nameInput.value.trim(),
-						category: categoryInput.value.trim(),
-						unit: unitInput.value.trim(),
-						origin_price: parseInt(originPriceInput.value) || 0,
-						price: parseInt(priceInput.value) || 0,
-						is_enabled: 1
-					}
-				};
-
+				product.data.is_enabled = 1;
 				this.addProduct(product, () => {
 					$("#productModal").modal('toggle');
 				});
 			} else {
-				const product = {
-					data: {
-						title: nameInput.value.trim(),
-						category: categoryInput.value.trim(),
-						unit: unitInput.value.trim(),
-						origin_price: parseInt(originPriceInput.value) || 0,
-						price: parseInt(priceInput.value) || 0
-					}
-				};
-
 				this.editProduct(this.data.updateId, product, () => {
 					$("#productModal").modal('toggle');
 				});
