@@ -224,7 +224,7 @@ const app = {
 						category: productData.category,
 						unit: productData.unit,
 						origin_price: productData.origin_price,
-						price: productData.origin_price,
+						price: productData.price,
 						is_enabled: 1 - productData.is_enabled
 					}
 				};
