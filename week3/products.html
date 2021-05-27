@@ -1,0 +1,328 @@
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE WEEK3 商品管理頁</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="./css/sb-admin-2.css" rel="stylesheet" type="text/css" >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+</head>
+
+<body id="page-top">
+    <div id="app">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+    
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">My Admin</div>
+                </a>
+    
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+    
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>商品管理</span>
+                    </a>
+                </li>
+    
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+    
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+    
+            </ul>
+            <!-- End of Sidebar -->
+    
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+    
+                <!-- Main Content -->
+                <div id="content">
+    
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+    
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">使用者</span>
+                                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        登出
+                                    </a>
+                                </div>
+                            </li>
+    
+                        </ul>
+    
+                    </nav>
+                    <!-- End of Topbar -->
+    
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+    
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">商品管理</h1>
+                        </div>
+    
+                        <div class="row">
+    
+                            <div class="col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">商品列表</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-sm btn-success" @click="openModal('add')">新增商品</button>
+                                        
+                                        <div class="table-responsive">
+                                            <table class="table mt-4">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="10%">分類</th>
+                                                        <th width="34%">商品名稱</th>
+                                                        <th width="10%" class="text-center">單位</th>
+                                                        <th width="10%" class="text-right">原價</th>
+                                                        <th width="10%" class="text-right">售價</th>
+                                                        <th width="10%" class="text-center">是否啟用</th>
+                                                        <th width="8%" class="text-center">編輯</th>
+                                                        <th width="8%" class="text-center">刪除</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="product in productList" :key="product.id">
+                                                        <td>
+                                                            {{product.category}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.title}}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{product.unit}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{product.origin_price}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{product.price}}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="javascript:void(0);" class="badge" :class="product.is_enabled ? 'badge-success': 'badge-secondary'" style="font-size:1em;" @click="enableChange(product)">{{ product.is_enabled ? 'ON' : 'OFF' }}</a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm btn-outline-success move" @click="openModal('update', product)"> 編輯 </button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm btn-outline-danger move" @click="openModal('delete', product)"> 刪除 </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="text-center">
+                                            <p>目前有 <span id="productCount">{{productList.length}}</span> 項商品</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <!-- /.container-fluid -->
+    
+                </div>
+                <!-- End of Main Content -->
+    
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Ethan Website 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+    
+            </div>
+            <!-- End of Content Wrapper -->
+    
+        </div>
+        <!-- End of Page Wrapper -->
+    
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- delete Modal-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="exampleModalLabel">刪除確認</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">您確定要刪除 {{tempProduct.title}} 嗎？</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" @click="deleteProduct(tempProduct.id)">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="exampleModalLabel">登出</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">您確定要登出嗎？</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" @click="logout">登出</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+      
+        <!-- Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="productModalLabel">{{productModalTitle}}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="imageUrl">主要圖片</label>
+                                <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
+                                <img class="img-fluid" :src="tempProduct.imageUrl">
+                            </div>
+                            <div class="mb-1">多圖新增</div>
+                            <div v-for="(imageUrl, index) in tempProduct.imagesUrl" :key="index">
+                                <div class="form-group">
+                                    <label for="imageUrl">圖片網址{{index + 1}}</label>
+                                    <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[index]">
+                                    <img class="img-fluid" :src="tempProduct.imagesUrl[index]">
+                                    <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.splice(index, 1)"> 刪除圖片 </button>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            <div style="padding-top:5px;" v-if="tempProduct.imagesUrl.length < 5">
+                                <button class="btn btn-outline-primary btn-sm d-block w-100" @click="tempProduct.imagesUrl.push('')"> 新增圖片 </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label for="name">商品標題</label>
+                                <input id="name" type="text" class="form-control" placeholder="請輸入商品標題" v-model="tempProduct.title">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="category">分類</label>
+                                    <input id="category" type="text" class="form-control" placeholder="請輸入商品類型" v-model="tempProduct.category">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="unit">單位</label>
+                                    <input id="unit" type="text" class="form-control" placeholder="請輸入單位" v-model="tempProduct.unit">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="originPrice">原價</label>
+                                    <input id="originPrice" type="number" min="0" class="form-control" placeholder="請輸入原價" v-model="tempProduct.origin_price">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="price">售價</label>
+                                    <input id="price" min="0" type="number" class="form-control" placeholder="請輸入售價" v-model="tempProduct.price">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="description">商品描述</label>
+                                <textarea id="description" type="text" class="form-control" placeholder="請輸入商品描述" v-model="tempProduct.description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">說明內容</label>
+                                <textarea id="content" type="text" class="form-control" placeholder="請輸入說明內容" v-model="tempProduct.content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input id="is_enabled" class="form-check-inpout" type="checkbox" true-value="1" false-value="0" v-model="tempProduct.is_enabled">
+                                <label class="corm-check-label" for="is_enabled">是否啟用</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" @click="modifyProduct">送出</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="//unpkg.com/vue@next"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script src="./javascript/product.js"></script>
+    <script src="./javascript/sb-admin-2.js"></script>
+</body>
+
+</html>
