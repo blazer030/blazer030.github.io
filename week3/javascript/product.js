@@ -59,6 +59,8 @@ const app = {
 						this.tempProduct = {...product};
 						if (!this.tempProduct.imagesUrl) {
 							this.tempProduct.imagesUrl = [];
+						} else {
+							this.tempProduct.imagesUrl = [...product.imagesUrl];
 						}
 					} else {
 						this.updateId = -1;
