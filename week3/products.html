@@ -243,14 +243,14 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="imageUrl">主要圖片</label>
-                                <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
+                                <input id="imageUrl" type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
                                 <img class="img-fluid" :src="tempProduct.imageUrl">
                             </div>
                             <div class="mb-1">多圖新增</div>
                             <div v-for="(imageUrl, index) in tempProduct.imagesUrl" :key="index">
                                 <div class="form-group">
-                                    <label for="imageUrl">圖片網址{{index + 1}}</label>
-                                    <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[index]">
+                                    <label :for="'imagesUrl' + index">圖片網址{{index + 1}}</label>
+                                    <input :id="'imagesUrl' + index" type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[index]">
                                     <img class="img-fluid" :src="tempProduct.imagesUrl[index]">
                                     <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.splice(index, 1)"> 刪除圖片 </button>
                                 </div>
@@ -292,11 +292,11 @@
                                 <textarea id="description" type="text" class="form-control" placeholder="請輸入商品描述" v-model="tempProduct.description"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="content">說明內容</label>
-                                <textarea id="content" type="text" class="form-control" placeholder="請輸入說明內容" v-model="tempProduct.content"></textarea>
+                                <label for="productContent">說明內容</label>
+                                <textarea id="productContent" type="text" class="form-control" placeholder="請輸入說明內容" v-model="tempProduct.content"></textarea>
                             </div>
                             <div class="form-group">
-                                <input id="is_enabled" class="form-check-inpout" type="checkbox" true-value="1" false-value="0" v-model="tempProduct.is_enabled">
+                                <input id="is_enabled" class="form-check-inpout" type="checkbox" :true-value="1" :false-value="0" v-model="tempProduct.is_enabled">
                                 <label class="corm-check-label" for="is_enabled">是否啟用</label>
                             </div>
                         </div>
