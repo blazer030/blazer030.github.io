@@ -1,5 +1,7 @@
 import pagination from "../component/pagination.js";
 import logoutModal from "../component/logoutModal.js";
+import productModal from "../component/productModal.js";
+import deleteModal from "../component/deleteModal.js";
 
 const app = Vue.createApp({
 	data() {
@@ -22,7 +24,9 @@ const app = Vue.createApp({
 	},
 	components: {
 		pagination,
-		logoutModal
+		logoutModal,
+		productModal,
+		deleteModal
 	},
 	methods: {
 		checkLogin() {
@@ -217,6 +221,19 @@ const app = Vue.createApp({
 				}
 			}).catch((error) => {
 				console.log(error);
+			});
+		},
+		uploadImage(file) {
+            const formData = new FormData();
+            formData.append('file-to-upload', file);
+            axios.post(`${this.apiUrl}/api/${this.apiPath}/admin/upload`, formData)
+			.then((response) => {
+				if (response.data.success) {
+					alertify.success('上傳成功');
+					this.tempProduct.imageUrl = response.data.imageUrl;
+				} else {
+					alertify.error(response.data.message);
+				}
 			});
 		}
 	},
