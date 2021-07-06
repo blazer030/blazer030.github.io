@@ -1,0 +1,52 @@
+@import "~bootstrap/scss/functions";
+@import "./helpers/variables";
+@import "~bootstrap/scss/mixins";
+
+@import "~bootstrap";
+
+.btn_add_to_cart {
+    display: block;
+    width: 100%;
+}
+
+img {
+    object-fit: cover;
+}
+
+.product_grid {
+    img:hover {
+        left: -50px;
+        transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+        -webkit-transition: all 0.5s ease 0s;
+        -moz-transition: all 0.5s ease 0s;
+        -o-transition: all 0.5s ease 0s;
+        -ms-transition: all 0.5s ease 0s;
+        transition: all 0.5s ease 0s;
+    }
+}
+
+.line_button {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto 30px;
+}
+
+.product_grid:hover .product_link {
+	overflow: hidden;
+}
+
+.h100 {
+    height: 100px;
+}
+
+.h200 {
+    height: 200px;
+}
+
+.h400 {
+    height: 400px;
+}
