@@ -101,7 +101,7 @@
             class="form-control"
             :class="{ 'is-invalid': errors['收件人電話'] }"
             placeholder="請輸入收件人電話"
-            rules="length:8|required"
+            rules="min:8|required"
             v-model="form.user.tel"
           ></Field>
           <ErrorMessage name="收件人電話" class="invalid-feedback"></ErrorMessage>
@@ -228,7 +228,7 @@ export default {
             showIcon: true,
             position: 'bottom-right',
           });
-          this.$refs.form.resetForm();
+          this.resetForm();
           this.getCart();
         } else {
           this.$moshaToast(response.data.message, {
@@ -239,6 +239,10 @@ export default {
         }
       });
     },
+    resetForm() {
+      this.form.message = '';
+      this.$refs.form.resetForm();
+    }
   },
   created() {
     this.getCart();

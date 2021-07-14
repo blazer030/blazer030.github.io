@@ -101,7 +101,7 @@
             class="form-control"
             :class="{ 'is-invalid': errors['收件人電話'] }"
             placeholder="請輸入收件人電話"
-            rules="length:8|required"
+            rules="min:8|required"
             v-model="form.user.tel"
           ></Field>
           <ErrorMessage name="收件人電話" class="invalid-feedback"></ErrorMessage>
@@ -216,10 +216,14 @@ export default {
         this.isProcessing = false;
         if (response.data.success) {
           alert(response.data.message);
-          this.$refs.form.resetForm();
+          this.resetForm();
           this.getCart();
         }
       });
+    },
+    resetForm() {
+      this.$refs.form.resetForm();
+      this.form.message = '';
     },
   },
   created() {
