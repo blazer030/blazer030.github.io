@@ -64,6 +64,9 @@
               <i class="fa fa-bars"></i>
             </button>
 
+            <router-link class="btn btn-outline-primary" to="/">
+              <i class="fas fa-home"></i> 網頁首頁
+            </router-link>
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ms-auto">
               <!-- Nav Item - User Information -->
@@ -155,14 +158,35 @@ export default {
   },
   components: { logoutModal },
   methods: {
+    checkLogin(successCallback) {
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      if (token) {
+        this.$http.defaults.headers.common.Authorization = `${token}`;
+
+        this.$http
+          .post(`${process.env.VUE_APP_API_URL}/api/user/check`)
+          .then((response) => {
+            if (response.data.success) {
+              successCallback();
+            } else {
+              this.$router.push('/login');
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        this.$router.push('/login');
+      }
+    },
     logout() {
       this.$http
-        .post(`${process.env.VUE_APP_APIURL}/logout`)
+        .post(`${process.env.VUE_APP_API_URL}/logout`)
         .then((response) => {
           if (response.data.success) {
             this.$refs.logoutModal.hideModal();
             document.cookie = 'hexToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-            this.$router.push('/manager');
+            this.$router.push('/login');
           }
         })
         .catch((error) => {
@@ -171,14 +195,15 @@ export default {
     },
   },
   created() {
+    this.checkLogin();
     this.menuList.forEach((menu, index) => {
       if (menu.path === this.$route.fullPath) {
         this.menuList[index].active = true;
       }
     });
   },
-  watch: {
-    $route(to) {
+  beforeRouteUpdate(to, from, next) {
+    this.checkLogin(() => {
       this.menuList.forEach((menu, index) => {
         if (menu.path === to.fullPath) {
           this.menuList[index].active = true;
@@ -186,7 +211,8 @@ export default {
           this.menuList[index].active = false;
         }
       });
-    },
+      next();
+    });
   },
   mounted() {
     $('#sidebarToggle, #sidebarToggleTop').on('click', () => {
@@ -205,7 +231,7 @@ export default {
     });
 
     // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
-    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', (e) => {
       if ($(window).width() > 768) {
         const e0 = e.originalEvent;
         const delta = e0.wheelDelta || -e0.detail;
@@ -215,7 +241,7 @@ export default {
     });
 
     // Scroll to top button appear
-    $(document).on('scroll', function () {
+    $(document).on('scroll', () => {
       const scrollDistance = $(this).scrollTop();
       if (scrollDistance > 100) {
         $('.scroll-to-top').fadeIn();

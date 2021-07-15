@@ -82,7 +82,9 @@
             </div>
             <div class="col-sm-8">
               <div class="mb-3">
-                <label for="name" class="form-label">商品標題</label>
+                <label for="name" class="form-label"
+                  >商品標題<span class="text-red">&nbsp;*</span></label
+                >
                 <input
                   id="name"
                   type="text"
@@ -93,7 +95,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類</label>
+                  <label for="category" class="form-label"
+                    >分類<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="category"
                     type="text"
@@ -103,7 +107,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="unit" class="form-label">單位</label>
+                  <label for="unit" class="form-label"
+                    >單位<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="unit"
                     type="text"
@@ -115,7 +121,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="originPrice" class="form-label">原價</label>
+                  <label for="originPrice" class="form-label"
+                    >原價<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="originPrice"
                     type="number"
@@ -126,7 +134,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">售價</label>
+                  <label for="price" class="form-label"
+                    >售價<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="price"
                     min="0"

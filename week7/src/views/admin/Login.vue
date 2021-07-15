@@ -114,28 +114,24 @@ export default {
     checkLogin() {
       // 取得Token
       const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-
-      // 確認是否登入
-      this.$http.defaults.headers.common.Authorization = token;
-      this.$http
-        .post(`${process.env.VUE_APP_API_URL}/api/user/check`)
-        .then((response) => {
-          if (response.data.success) {
-            this.$router.push('/admin/products');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (token) {
+        // 確認是否登入
+        this.$http.defaults.headers.common.Authorization = token;
+        this.$http
+          .post(`${process.env.VUE_APP_API_URL}/api/user/check`)
+          .then((response) => {
+            if (response.data.success) {
+              this.$router.push('/admin/products');
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
   created() {
     this.checkLogin();
-  },
-  watch: {
-    $route() {
-      this.checkLogin();
-    },
   },
 };
 </script>

@@ -242,7 +242,7 @@ export default {
     resetForm() {
       this.form.message = '';
       this.$refs.form.resetForm();
-    }
+    },
   },
   created() {
     this.getCart();

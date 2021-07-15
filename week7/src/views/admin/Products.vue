@@ -1,8 +1,9 @@
 <template>
   <div class="container-fluid">
+    <loading :active="isLoading"/>
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">商品管理</h1>
+      <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-gift"></i> 商品管理</h1>
     </div>
 
     <div class="row">
@@ -108,6 +109,7 @@ import deleteModal from '@/components/admin/deleteModal.vue';
 export default {
   data() {
     return {
+      isLoading: false,
       updateId: -1,
       productList: [],
       tempProduct: {
@@ -128,21 +130,8 @@ export default {
     deleteModal,
   },
   methods: {
-    checkLogin() {
-      this.$http
-        .post(`${process.env.VUE_APP_API_URL}/api/user/check`)
-        .then((response) => {
-          if (response.data.success) {
-            this.getProduct();
-          } else {
-            this.$router.push('/admin');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     getProduct(page = 1) {
+      this.isLoading = true;
       this.$http
         .get(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/products?page=${page}`,
@@ -158,6 +147,7 @@ export default {
               position: 'bottom-right',
             });
           }
+          this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -303,6 +293,7 @@ export default {
       this.editProduct(product.id, updateProduct);
     },
     addProduct(product, callback) {
+      this.isLoading = true;
       this.$http
         .post(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/product`,
@@ -322,6 +313,7 @@ export default {
               showIcon: true,
               position: 'bottom-right',
             });
+            this.isLoading = false;
           }
 
           if (callback) {
@@ -333,6 +325,7 @@ export default {
         });
     },
     editProduct(productId, product, callback) {
+      this.isLoading = true;
       this.$http
         .put(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/product/${productId}`,
@@ -352,6 +345,7 @@ export default {
               showIcon: true,
               position: 'bottom-right',
             });
+            this.isLoading = false;
           }
 
           if (callback) {
@@ -363,6 +357,7 @@ export default {
         });
     },
     deleteProduct(productId) {
+      this.isLoading = true;
       this.$http
         .delete(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/product/${productId}`,
@@ -382,6 +377,7 @@ export default {
               showIcon: true,
               position: 'bottom-right',
             });
+            this.isLoading = false;
           }
         })
         .catch((error) => {
@@ -392,7 +388,7 @@ export default {
       const formData = new FormData();
       formData.append('file-to-upload', file);
       this.$http
-        .post(`${this.apiUrl}/api/${this.apiPath}/admin/upload`, formData)
+        .post(`${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/upload`, formData)
         .then((response) => {
           if (response.data.success) {
             this.$moshaToast('上傳成功', {
@@ -412,10 +408,7 @@ export default {
     },
   },
   created() {
-    // 取得Token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    this.$http.defaults.headers.common.Authorization = token;
-    this.checkLogin();
+    this.getProduct();
   },
 };
 </script>

@@ -61,7 +61,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="userEmail" class="form-label">Email</label>
+                  <label for="userEmail" class="form-label"
+                    >Email<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="userEmail"
                     type="email"
@@ -71,7 +73,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="userName" class="form-label">收件人名稱</label>
+                  <label for="userName" class="form-label"
+                    >收件人名稱<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="userName"
                     type="text"
@@ -83,7 +87,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="userTel" class="form-label">收件人電話</label>
+                  <label for="userTel" class="form-label"
+                    >收件人電話<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="userTel"
                     type="tel"
@@ -93,7 +99,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="userAddress" class="form-label">收件人地址</label>
+                  <label for="userAddress" class="form-label"
+                    >收件人地址<span class="text-red">&nbsp;*</span></label
+                  >
                   <input
                     id="userAddress"
                     type="text"

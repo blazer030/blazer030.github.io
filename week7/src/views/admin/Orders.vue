@@ -1,8 +1,9 @@
 <template>
   <div class="container-fluid">
+    <loading :active="isLoading"/>
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">訂單管理</h1>
+      <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-shopping-cart"></i> 訂單管理</h1>
     </div>
 
     <div class="row">
@@ -94,6 +95,7 @@ import deleteModal from '@/components/admin/deleteModal.vue';
 export default {
   data() {
     return {
+      isLoading: false,
       orderList: [],
       tempOrder: {
         user: {},
@@ -113,26 +115,14 @@ export default {
     deleteModal,
   },
   methods: {
-    checkLogin() {
-      this.$http
-        .post(`${process.env.VUE_APP_API_URL}/api/user/check`)
-        .then((response) => {
-          if (response.data.success) {
-            this.getOrder();
-          } else {
-            this.$router.push('/admin');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     getOrder(page = 1) {
+      this.isLoading = true;
       this.$http
         .get(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/orders?page=${page}`,
         )
         .then((response) => {
+          this.isLoading = false;
           if (response.data.success) {
             this.orderList = response.data.orders;
             this.pageInfo = response.data.pagination;
@@ -240,6 +230,7 @@ export default {
       this.editOrder(order.id, updateOrder);
     },
     editOrder(orderId, order, callback) {
+      this.isLoading = true;
       this.$http
         .put(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/order/${orderId}`,
@@ -259,6 +250,7 @@ export default {
               showIcon: true,
               position: 'bottom-right',
             });
+            this.isLoading = false;
           }
 
           if (callback) {
@@ -270,6 +262,7 @@ export default {
         });
     },
     deleteOrder(orderId) {
+      this.isLoading = true;
       this.$http
         .delete(
           `${process.env.VUE_APP_API_URL}/api/${process.env.VUE_APP_API_PATH}/admin/order/${orderId}`,
@@ -289,6 +282,7 @@ export default {
               showIcon: true,
               position: 'bottom-right',
             });
+            this.isLoading = false;
           }
         })
         .catch((error) => {
@@ -297,10 +291,7 @@ export default {
     },
   },
   created() {
-    // 取得Token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    this.$http.defaults.headers.common.Authorization = token;
-    this.checkLogin();
+    this.getOrder();
   },
 };
 </script>

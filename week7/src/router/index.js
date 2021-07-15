@@ -20,13 +20,17 @@ const routes = [
     ],
   },
   {
-    path: '/admin',
+    path: '/login',
     component: () => import('../views/admin/Login.vue'),
   },
   {
     path: '/admin',
     component: () => import('../views/Admin.vue'),
     children: [
+      {
+        path: '',
+        redirect: '/admin/products',
+      },
       {
         path: 'products',
         component: () => import('../views/admin/Products.vue'),
